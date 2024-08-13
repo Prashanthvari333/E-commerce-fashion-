@@ -4,8 +4,9 @@ import React ,{useState}from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import HomeSectionCard from '../HomeSectionCard/HomeSectionCard';
-
+import {mensKurthas} from '../../Data/Men/Men-Kurtha';
 import { homeCarouselData } from './HomeSectionCarouselData';
+
 
 
 const responsive = {
@@ -14,7 +15,7 @@ const responsive = {
     1024: { items: 5 },
 };
 
-const items = [1,1,1,1,1,1,1,1,1,1].map((item) => <HomeSectionCard/>);
+const items = mensKurthas.map((item) => <HomeSectionCard product={item} />);
 
 const HomeSectionCarousel = () => {
     const [activeIndex,setActiveIndex] = useState(0);

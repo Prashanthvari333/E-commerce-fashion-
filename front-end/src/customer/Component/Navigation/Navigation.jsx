@@ -14,6 +14,7 @@ import {
   TabPanels,
 } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom';
 
 const navigation = {
   categories: [
@@ -39,27 +40,27 @@ const navigation = {
           id: 'clothing',
           name: 'Clothing',
           items: [
-            { name: 'Tops', href: '#' },
-            { name: 'Dresses', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Denim', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-            { name: 'Activewear', href: '#' },
-            { name: 'Browse All', href: '#' },
+            { name: 'Tops', href: 'top' },
+            { name: 'Dresses', href: 'dresses' },
+            { name: 'Pants', href: 'pants' },
+            { name: 'Denim', href: 'denim' },
+            { name: 'Sweaters', href: 'sweaters' },
+            { name: 'T-Shirts', href: 't-shirt' },
+            { name: 'Jackets', href: 'jackets' },
+            { name: 'Activewear', href: 'activewear' },
+            { name: 'Browse All', href: 'browse-all' },
           ],
         },
         {
           id: 'accessories',
           name: 'Accessories',
           items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
+            { name: 'Watches', href: 'watches' },
+            { name: 'Wallets', href: 'wallets' },
+            { name: 'Bags', href: 'bags' },
+            { name: 'Sunglasses', href: 'sunglasses' },
+            { name: 'Hats', href: 'hats' },
+            { name: 'Belts', href: 'belts' },
           ],
         },
         {
@@ -98,7 +99,7 @@ const navigation = {
           id: 'clothing',
           name: 'Clothing',
           items: [
-            { name: 'Tops', href: '#' },
+            { name: 'Tops', href: 'tops' },
             { name: 'Pants', href: '#' },
             { name: 'Sweaters', href: '#' },
             { name: 'T-Shirts', href: '#' },
@@ -133,13 +134,42 @@ const navigation = {
     },
   ],
   pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
+    { name: 'Company', href: 'company' },
+    { name: 'Stores', href: 'stores' },
   ],
 }
 
 export default function Navigation() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const navigate= useNavigate();
+
+  const [openAuthModal,setOpenAuthModal] = useState(false);
+  const [anchorE1,setAnchorE1] = useState(null);
+  const openUserMenu = Boolean(anchorE1);
+  const jwt = localStorage.getItem("jwt");
+
+  const handleUserClick =(event)=>{
+    setAnchorE1(event.currentTarget);
+  }
+
+  const handleCloseUserMenu =(event)=>{
+    setAnchorE1(null);
+  }
+
+  const handleOpen=()=>{
+    setOpenAuthModal(true);
+  }
+  const handleClose=()=>{
+    setOpenAuthModal(false)
+  }
+
+  const handleCategoryClick = (category,section,item,close)=>{
+    navigate(`/${category.id}/${section.id}/${item.href}`);
+    close();
+  }
+  const handleCreateAccount=()=>{
+    navigate('/sign-up')
+  }
 
   return (
     <div className="relative bg-white pb-10 z-50">
@@ -242,9 +272,9 @@ export default function Navigation() {
                 </a>
               </div>
               <div className="flow-root">
-                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                <p onClick={handleCreateAccount} className="-m-2 block p-2 font-medium text-gray-900">
                   Create account
-                </a>
+                </p>
               </div>
             </div>
 
@@ -294,10 +324,12 @@ export default function Navigation() {
               </div>
 
               {/* Flyout menus */}
-              <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
+              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
+                      {({open,close})=>
+                      <>
                       <div className="relative flex">
                         <PopoverButton className="relative z-10 -mb-px flex items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:border-indigo-600 data-[open]:text-indigo-600">
                           {category.name}
@@ -347,9 +379,11 @@ export default function Navigation() {
                                     >
                                       {section.items.map((item) => (
                                         <li key={item.name} className="flex">
-                                          <a href={item.href} className="hover:text-gray-800">
+                                          <p 
+                                          onClick={()=>handleCategoryClick(category,section,item,close)}
+                                          className=" cursor-pointer hover:text-gray-800">
                                             {item.name}
-                                          </a>
+                                          </p>
                                         </li>
                                       ))}
                                     </ul>
@@ -360,6 +394,8 @@ export default function Navigation() {
                           </div>
                         </div>
                       </PopoverPanel>
+                    </>
+                  }
                     </Popover>
                   ))}
 
@@ -373,7 +409,7 @@ export default function Navigation() {
                     </a>
                   ))}
                 </div>
-              </PopoverGroup>
+              </Popover.Group>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -381,7 +417,7 @@ export default function Navigation() {
                     Sign in
                   </a>
                   <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <a onClick={handleCreateAccount} className="text-sm font-medium text-gray-700 hover:text-gray-800">
                     Create account
                   </a>
                 </div>

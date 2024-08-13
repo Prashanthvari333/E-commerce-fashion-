@@ -1,4 +1,5 @@
 export const mensKurthas = [{
+        id: 1,
         imageUrl: "https://tse2.mm.bing.net/th?id=OIP.r9gPfFp5cDOYee2OALAd7QAAAA&pid=Api&P=0&h=180",
         brand: "Fabindia",
         title: "Cotton Solid Kurta",
@@ -7,6 +8,7 @@ export const mensKurthas = [{
         discountPersent: "40% OFF",
     },
     {
+        id: 2,
         imageUrl: "https://tse2.mm.bing.net/th?id=OIP.NPstn4zzzKtDwKsquiyk8QAAAA&pid=Api&P=0&h=180",
         brand: "Manyavar",
         title: "Silk Blend Kurta",
@@ -15,6 +17,7 @@ export const mensKurthas = [{
         discountPersent: "30% OFF",
     },
     {
+        id: 3,
         imageUrl: "https://tse1.explicit.bing.net/th?id=OIP.WyAmenp4gtRDwZwOmAX48wHaJ_&pid=Api&P=0&h=180",
         brand: "W for Men",
         title: "Printed Casual Kurta",
@@ -23,6 +26,7 @@ export const mensKurthas = [{
         discountPersent: "33% OFF",
     },
     {
+        id: 4,
         imageUrl: "https://tse4.mm.bing.net/th?id=OIP.Kg2pUl86OWCHPbwFXmz6WwHaLH&pid=Api&P=0&h=180",
         brand: "Peter England",
         title: "Slim Fit Kurta",
@@ -31,6 +35,7 @@ export const mensKurthas = [{
         discountPersent: "36% OFF",
     },
     {
+        id: 5,
         imageUrl: "https://tse1.mm.bing.net/th?id=OIP.-DQ-2tCkubOMb0CyZXTVvAHaLH&pid=Api&P=0&h=180",
         brand: "Raymond",
         title: "Ethnic Wear Kurta",
@@ -39,6 +44,7 @@ export const mensKurthas = [{
         discountPersent: "37% OFF",
     },
     {
+        id: 6,
         imageUrl: "https://tse3.mm.bing.net/th?id=OIP.MUBD40wO95bEj_MGhI7UngHaKt&pid=Api&P=0&h=180",
         brand: "Biba",
         title: "Cotton Kurta",
@@ -47,6 +53,7 @@ export const mensKurthas = [{
         discountPersent: "36% OFF",
     },
     {
+        id: 7,
         imageUrl: "https://tse4.mm.bing.net/th?id=OIP.uq1EPIxPz9orWiRlQk7QLQHaJ4&pid=Api&P=0&h=180",
         brand: "Aurelia",
         title: "Casual Kurta",
@@ -55,6 +62,7 @@ export const mensKurthas = [{
         discountPersent: "38% OFF",
     },
     {
+        id: 8,
         imageUrl: "https://tse3.explicit.bing.net/th?id=OIP.nuSuW94zDvuKT9bQ_dWurQHaKu&pid=Api&P=0&h=180",
         brand: "Manyavar",
         title: "Traditional Kurta",
