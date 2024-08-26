@@ -2,8 +2,6 @@ package com.prashu.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +9,10 @@ import java.util.List;
 @Entity
 public class User {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -67,13 +66,13 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public long getId() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
