@@ -53,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> createUserHandle(@RequestBody User user) throws Exception {
+    public ResponseEntity<AuthResponse> createUserHandle(@RequestBody User user) throws UserException {
         String email = user.getEmail();
         String password = user.getPassword();
         String firstName = user.getFirstName();
