@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import {
   Dialog,
   DialogBackdrop,
@@ -18,9 +18,13 @@ import ProductCart from './ProductCart'
 import { mensKurthas } from '../../Data/Men/Men-Kurtha'
 import RadioButtonsGroup from '../../Widgets/RadioButtonsGroup';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate ,useParams} from 'react-router-dom';
 
 import {filters,singleFilters,sortOptions} from '../../Data/Filter/filterData';
+
+import {useDispatch} from 'react-redux';
+
+import {findProductsByCategory} from '../../../State/Product/Action';
 
 
 function classNames(...classes) {
@@ -31,6 +35,44 @@ export default function Product() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const location = useLocation();
   const navigate = useNavigate();
+  const param = useParams();
+
+  const dispatch = useDispatch();
+
+  const decodedQueryString = decodeURIComponent(location.search);
+  const queryParams = new URLSearchParams(decodedQueryString);
+  const colorValue = queryParams.get("Color");
+  const sizeValue = queryParams.get("Size");
+  const priceValue = queryParams.get("Price");
+  const discount = queryParams.get("Discount");
+  const sortValue = queryParams.get("Sort");
+  // const categoryValue = queryParams.get("category");
+  const pageNumber = queryParams.get("page")|| 1;
+  const stockValue = queryParams.get("Availability");
+
+  useEffect(()=>{
+      const [minPrice,maxPrice] = (priceValue==null)? [0,0] : priceValue.split("-").map(Number);
+      if(minPrice===undefined){
+        minPrice=0;
+      }
+      if(maxPrice===undefined){
+        maxPrice=0;
+      }
+      const data = {
+        colors: colorValue || [],
+        sizes: sizeValue || [],
+        minPrice:0,
+        maxPrice:0,
+        minDiscount: discount|| 0,
+        category : param.levelThree,
+        stock : stockValue,
+        sort: sortValue || "price_low",
+        pageNumber: pageNumber-1,
+        pageSize : 10,
+        }
+        console.log("useEffect Data: ",data);
+        dispatch(findProductsByCategory(data));
+      },[ param.levelThree,colorValue,sizeValue,priceValue,discount,sortValue,pageNumber,stockValue])
 
   function handleFilter(value,sectionId){
     const searchParams = new URLSearchParams(location.search);

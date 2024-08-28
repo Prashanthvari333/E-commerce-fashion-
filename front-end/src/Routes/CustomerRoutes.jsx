@@ -12,6 +12,7 @@ import Order from '../customer/Order/Order';
 import SignUp from '../customer/Pages/AuthPages/SignUp';
 
 
+
 const CustomerRoutes = () => {
   return (
     <div>
@@ -27,6 +28,8 @@ const CustomerRoutes = () => {
             <Route path='/account/order' element={ <Order/>}></Route>
             <Route path='/account/order/:orderId' element={<OrderDetails/>}></Route>
             <Route path='/sign-up' element={<SignUp/>}></Route>
+            <Route path='/login' element={<HomePage/>}></Route>
+            <Route path='/signup' element={<HomePage/>}></Route>
         {/* 
 
         <Checkout/>

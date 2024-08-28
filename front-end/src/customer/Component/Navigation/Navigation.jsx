@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState,useEffect } from 'react'
 import {
   Dialog,
   DialogBackdrop,
@@ -15,7 +15,14 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom';
-
+import {useSelector,useDispatch} from 'react-redux';
+import AuthModel from '../../Auth/AuthModel';
+import { getUser } from '../../../State/Auth/Action';
+import Avatar from "@material-ui/core/Avatar";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import {logout} from '../../../State/Auth/Action'
 const navigation = {
   categories: [
     {
@@ -99,13 +106,13 @@ const navigation = {
           id: 'clothing',
           name: 'Clothing',
           items: [
-            { name: 'Tops', href: 'tops' },
-            { name: 'Pants', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-            { name: 'Activewear', href: '#' },
-            { name: 'Browse All', href: '#' },
+            { name: 'Shirts', href: 'Shirts' },
+            { name: 'Pants', href: 'Shirts' },
+            { name: 'Sweaters', href: 'Shirts' },
+            { name: 'T-Shirts', href: 'Shirts' },
+            { name: 'Jackets', href: 'Shirts' },
+            { name: 'Activewear', href: 'Shirts' },
+            { name: 'Browse All', href: 'Shirts' },
           ],
         },
         {
@@ -146,6 +153,8 @@ export default function Navigation() {
   const [openAuthModal,setOpenAuthModal] = useState(false);
   const [anchorE1,setAnchorE1] = useState(null);
   const openUserMenu = Boolean(anchorE1);
+  const {auth} = useSelector(store => store );
+  const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
 
   const handleUserClick =(event)=>{
@@ -161,6 +170,7 @@ export default function Navigation() {
   }
   const handleClose=()=>{
     setOpenAuthModal(false)
+    navigate('/')
   }
 
   const handleCategoryClick = (category,section,item,close)=>{
@@ -168,8 +178,39 @@ export default function Navigation() {
     close();
   }
   const handleCreateAccount=()=>{
-    navigate('/sign-up')
+    navigate('/signup')
+    setOpenAuthModal(true); 
   }
+
+  const handleLogin=()=>{
+    navigate('/login')
+    setOpenAuthModal(true); 
+  }
+
+
+  
+  useEffect(()=>{
+    if(jwt) {
+        console.log('use effect user : ',auth.user?.firstName)
+        dispatch(getUser(jwt));
+    }
+},[jwt,auth.jwt])
+
+const firstNameInitial = auth.user?.firstName[0].toUpperCase();
+
+useEffect(()=>{
+  if(auth.user) {
+      handleClose()
+  }
+},[auth.user])
+
+
+const handleLogout=()=>{
+  dispatch(logout());
+  localStorage.removeItem("jwt");
+  handleCloseUserMenu()
+}
+
 
   return (
     <div className="relative bg-white pb-10 z-50">
@@ -265,27 +306,30 @@ export default function Navigation() {
               ))}
             </div>
 
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-              <div className="flow-root">
-                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                  Sign in
-                </a>
-              </div>
-              <div className="flow-root">
-                <p onClick={handleCreateAccount} className="-m-2 block p-2 font-medium text-gray-900">
-                  Create account
-                </p>
-              </div>
+            <div className="space-y-6 border-t border-gray-200 px-4 py-6 ">
+                  {auth.user?.firstName?<Avatar> {auth.user?.firstName[0]}</Avatar> :(<div className='flex'>
+                    <div className="flow-root p-4" >
+                      <a onClick={handleLogin} className="-m-2 block p-2 font-medium text-gray-900">
+                        Sign in
+                      </a>
+                    </div>
+                    <div className="flow-root p-4 ">
+                      <a onClick={handleCreateAccount} className="-m-2 block p-2 font-medium text-gray-900">
+                        Create account 
+                      </a>
+                    </div>
+                    </div>)
+                    }
             </div>
 
             <div className="border-t border-gray-200 px-4 py-6">
               <a href="#" className="-m-2 flex items-center p-2">
                 <img
                   alt=""
-                  src="https://tailwindui.com/img/flags/flag-canada.svg"
+                  src="https://tailwindui.com/img/flags/india.svg"
                   className="block h-auto w-5 flex-shrink-0"
                 />
-                <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
+                <span className="ml-3 block text-base font-medium text-gray-900">IND</span>
                 <span className="sr-only">, change currency</span>
               </a>
             </div>
@@ -294,9 +338,9 @@ export default function Navigation() {
       </Dialog>
 
       <header className="relative bg-white">
-        <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+        {/* <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
-        </p>
+        </p> */}
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-b border-gray-200">
@@ -314,10 +358,10 @@ export default function Navigation() {
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
-                  <span className="sr-only">Your Company</span>
+                  <span className="sr-only">Prashu's Fashion</span>
                   <img
                     alt=""
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    src="https://img.freepik.com/free-vector/black-en-yellow-abstract-logo_23-2147493308.jpg"
                     className="h-8 w-auto"
                   />
                 </a>
@@ -412,24 +456,48 @@ export default function Navigation() {
               </Popover.Group>
 
               <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Sign in
-                  </a>
-                  <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                  <a onClick={handleCreateAccount} className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Create account
-                  </a>
-                </div>
+                
+
+                  <div className="space-y-6 border-t border-gray-200 px-4 py-6 ">
+                  {auth.user?.firstName ?( <div>
+                            <IconButton onClick={handleUserClick}>
+                              <Avatar>{firstNameInitial}</Avatar>
+                            </IconButton>
+                            <Menu
+                              anchorEl={anchorE1}
+                              open={Boolean(anchorE1)}
+                              onClose={handleClose}
+                            >
+                              <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                              <MenuItem onClick={handleCloseUserMenu}>My Order</MenuItem>
+                              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
+                          </div>
+                        ) : (<div className='flex'>
+                              <div className="flow-root p-4">
+                                <a onClick={handleLogin} className="-m-2 block p-2 font-medium text-gray-900">
+                                  Sign in
+                                </a>
+                              </div>
+                              <div className="flow-root p-4 ">
+                                <a onClick={handleCreateAccount} className="-m-2 block p-2 font-medium text-gray-900">
+                                  Create account 
+                                </a>
+                              </div>
+                             </div>
+                            )
+                    }
+                  </div>
+                
 
                 <div className="hidden lg:ml-8 lg:flex">
                   <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
                     <img
                       alt=""
-                      src="https://tailwindui.com/img/flags/flag-canada.svg"
+                      src="https://img.freepik.com/free-vector/flag-india_23-2147813733.jpg"
                       className="block h-auto w-5 flex-shrink-0"
                     />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
+                    <span className="ml-3 block text-sm font-medium">IND</span>
                     <span className="sr-only">, change currency</span>
                   </a>
                 </div>
@@ -458,6 +526,8 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
+
+      <AuthModel handleClose={handleClose} handleOpen={handleOpen} open={openAuthModal}/>
     </div>
   )
 }
