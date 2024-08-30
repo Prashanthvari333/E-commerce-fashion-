@@ -56,13 +56,13 @@ export default function Product() {
         minPrice=0;
       }
       if(maxPrice===undefined){
-        maxPrice=0;
+        maxPrice= 100000;
       }
       const data = {
         colors: colorValue || [],
         sizes: sizeValue || [],
-        minPrice:0,
-        maxPrice:0,
+        minPrice,
+        maxPrice,
         minDiscount: discount|| 0,
         category : param.levelThree,
         stock : stockValue,

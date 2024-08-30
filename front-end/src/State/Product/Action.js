@@ -76,9 +76,9 @@ export const findProductsByCategory = (reqData) => async(dispatch) => {
     dispatch({ type: FIND_PRODUCT_BY_CATEGORY_REQUEST });
     console.log("Req Data :", reqData);
     const { colors, sizes, minPrice, maxPrice, minDiscount, category, stock, sort, pageNumber, pageSize } = reqData;
+    console.log(`/api/products?color=${colors}&size=${sizes}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}&category=${category}&stock=${stock}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
     try {
-        const { data } = await api.get(`/api/products?color=${ colors }&size=${ sizes }&minPrice=${ minPrice }&maxPrice=${ maxPrice }&minDiscount=${ minDiscount }&category=${ category }&stock=${ stock }&sort=${ sort }&pageNumber=${ pageNumber }&pageSize=${ pageSize }`);
-
+        const { data } = await api.get(`/api/products?color=${colors}&size=${sizes}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}&category=${category}&stock=${stock}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
 
         dispatch({ type: FIND_PRODUCT_BY_CATEGORY_SUCCESS, payload: data })
         console.log("Data :", data);

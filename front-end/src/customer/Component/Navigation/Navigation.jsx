@@ -112,7 +112,7 @@ const navigation = {
             { name: 'T-Shirts', href: 'Shirts' },
             { name: 'Jackets', href: 'Shirts' },
             { name: 'Activewear', href: 'Shirts' },
-            { name: 'Browse All', href: 'Shirts' },
+            { name: 'Kurtas', href: 'Kurtas' },
           ],
         },
         {
