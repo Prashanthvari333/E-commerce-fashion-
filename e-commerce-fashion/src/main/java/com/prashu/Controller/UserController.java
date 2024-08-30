@@ -21,7 +21,6 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<User> getUserProfileHandler(@RequestHeader("Authorization") String jwt) throws UserException, ProductException {
-        System.out.println("Token : " +jwt);
         if(jwt.startsWith("Bearer ")){
             jwt = jwt.substring(7);
         }

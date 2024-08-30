@@ -59,15 +59,11 @@ public class AuthController {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
 
-        System.out.println("Im here...");
-
         User isEmailExist = repo.findByEmail(email);
 
         if(isEmailExist!=null){
             throw new UserException("Email is Already Used with another account");
         }
-
-        System.out.println("Im here...to");
 
         User newUser = new User();
         newUser.setEmail(email);
@@ -77,7 +73,6 @@ public class AuthController {
 
         User savedUser = repo.save(newUser);
 
-        System.out.println("Im here...till userCreation");
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),savedUser.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -92,11 +87,10 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> loginUserHandle(@RequestBody LoginRequest loginRequest){
-        System.out.println("Hey u r here in signin");
         String userName = loginRequest.getEmail();
-        System.out.println("userName : "+userName);
+
         String password = loginRequest.getPassword();
-        System.out.println("password : "+password );
+
         Authentication authentication = authenticate(userName,password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.generateToken(authentication);
@@ -112,7 +106,7 @@ public class AuthController {
         if(userDetails==null){
             throw  new BadCredentialsException("User not found");
         }
-        System.out.println("UserDetail Password: " + userDetails.getPassword());
+
         if(!passwordEncoder.matches(password,userDetails.getPassword())){
             throw new BadCredentialsException("Invalid Password prashu");
         }

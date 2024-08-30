@@ -14,8 +14,9 @@ public class JwtProvider {
     SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 
     public String generateToken(Authentication auth){
+        long EXPIRATIONTIME = 365 * 24 * 60 * 60 * 1000L;
         String jwt = Jwts.builder().setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime()+846000))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .claim("email",auth.getName())
                 .signWith(key).compact();
         return jwt;
