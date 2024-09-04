@@ -24,4 +24,4 @@ This project is a full-featured e-commerce platform built using **Spring Boot**,
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/Prashanthvari333/E-commerce-fashion-.git]
+   git clone https://github.com/Prashanthvari333/E-commerce-fashion-.git
